@@ -1,0 +1,27 @@
+{
+  "name": "Paire - Find Your Perfect Roommate",
+  "short_name": "Paire",
+  "description": "Smart roommate matching based on lifestyle compatibility. Find verified, compatible roommates near you.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#7C5CFC",
+  "orientation": "portrait",
+  "categories": ["lifestyle", "social"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "prefer_related_applications": false
+}

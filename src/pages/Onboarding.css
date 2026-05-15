@@ -1,0 +1,179 @@
+.onboarding-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-white);
+  padding: 16px 20px;
+  padding-bottom: env(safe-area-inset-bottom, 20px);
+}
+
+.onboarding-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+}
+
+.skip-btn {
+  background: none;
+  color: var(--text-secondary);
+  font-size: 15px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  transition: all 0.2s;
+}
+.skip-btn:active {
+  background: var(--bg-subtle);
+}
+
+.onboarding-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  animation: obSlideIn 0.4s var(--ease-out) both;
+}
+
+@keyframes obSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.onboarding-visual {
+  border-radius: var(--radius-2xl);
+  height: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.visual-icon-wrap {
+  width: 100px;
+  height: 100px;
+  border-radius: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  z-index: 2;
+  animation: iconFloat 3s ease-in-out infinite;
+}
+
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(2deg); }
+}
+
+.visual-orbs {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.v-orb {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.12;
+}
+.v-orb-1 {
+  width: 120px;
+  height: 120px;
+  top: 20%;
+  left: -20px;
+  animation: float 6s ease-in-out infinite;
+}
+.v-orb-2 {
+  width: 80px;
+  height: 80px;
+  bottom: 15%;
+  right: -10px;
+  animation: float 5s ease-in-out infinite 1s;
+}
+.v-orb-3 {
+  width: 60px;
+  height: 60px;
+  top: 10%;
+  right: 20%;
+  animation: float 7s ease-in-out infinite 2s;
+}
+
+.onboarding-text {
+  padding: 0 4px;
+}
+
+.onboarding-text h2 {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  white-space: pre-line;
+}
+
+.onboarding-text p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 320px;
+}
+
+.onboarding-footer {
+  padding: 24px 0 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.onboarding-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.ob-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--border);
+  transition: all 0.3s var(--ease-spring);
+}
+
+.ob-dot.active {
+  width: 28px;
+}
+
+.ob-dot.done {
+  background: var(--text-light);
+}
+
+.onboarding-next {
+  width: 100%;
+  padding: 16px 24px;
+  border-radius: var(--radius-xl);
+  color: white;
+  font-size: 17px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s;
+}
+.onboarding-next:active {
+  transform: scale(0.97);
+}
+
+.onboarding-note {
+  font-size: 13px;
+  color: var(--text-muted);
+}

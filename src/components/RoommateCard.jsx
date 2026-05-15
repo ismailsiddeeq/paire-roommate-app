@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { MapPin, Briefcase, DollarSign, Calendar, Shield, ChevronDown, ChevronUp } from 'lucide-react';
 import './RoommateCard.css';
 
-export default function RoommateCard({ roommate, onLike, onPass, style }) {
+export default function RoommateCard({ roommate, onLike, onPass, onTap, style }) {
   const [currentPhoto, setCurrentPhoto] = useState(0);
   const [expanded, setExpanded] = useState(false);
   const [dragX, setDragX] = useState(0);
@@ -151,9 +151,9 @@ export default function RoommateCard({ roommate, onLike, onPass, style }) {
           </div>
         ))}
 
-        <button className="expand-btn pressable" onClick={() => setExpanded(!expanded)}>
+        <button className="expand-btn pressable" onClick={() => onTap ? onTap(roommate) : setExpanded(!expanded)}>
           {expanded ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
-          {expanded ? 'Show less' : `Show more about ${roommate.name.split(' ')[0]}`}
+          {expanded ? 'Show less' : `View full profile`}
         </button>
       </div>
 

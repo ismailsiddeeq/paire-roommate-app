@@ -21,7 +21,7 @@ export default function Quiz() {
 
   const next = () => {
     if (isLast) {
-      navigate('/discover');
+      navigate('/preferences');
       return;
     }
     setAnimDir('forward');

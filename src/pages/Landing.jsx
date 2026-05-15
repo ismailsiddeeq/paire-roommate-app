@@ -28,7 +28,7 @@ export default function Landing() {
             not just budget.
           </p>
 
-          <button className="cta-primary" onClick={() => navigate('/quiz')}>
+          <button className="cta-primary" onClick={() => navigate('/onboarding')}>
             Get Started
             <ArrowRight size={18} />
           </button>
@@ -122,7 +122,7 @@ export default function Landing() {
 
       <div className="bottom-cta">
         <h3>Ready to find<br />your person?</h3>
-        <button className="cta-primary" onClick={() => navigate('/quiz')}>
+        <button className="cta-primary" onClick={() => navigate('/onboarding')}>
           Take the Quiz
           <ArrowRight size={18} />
         </button>

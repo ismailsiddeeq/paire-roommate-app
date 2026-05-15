@@ -309,3 +309,152 @@
 .logout-btn:hover {
   background: #FFF1F1;
 }
+
+/* Profile completion */
+.profile-completion {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  margin-bottom: 14px;
+  border: 1px solid var(--border-light);
+}
+
+.completion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.completion-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.completion-pct {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.completion-bar {
+  height: 6px;
+  background: var(--border-light);
+  border-radius: 3px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+.completion-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--accent-warm));
+  border-radius: 3px;
+  transition: width 0.5s var(--ease-out);
+}
+
+.completion-items {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.completion-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  background: var(--bg-primary);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-align: left;
+  width: 100%;
+}
+
+.completion-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 2px solid var(--primary-light);
+  flex-shrink: 0;
+}
+
+.completion-item span {
+  flex: 1;
+}
+
+/* Safety center */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.safety-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.safety-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+}
+
+.safety-card.verified {
+  color: #059669;
+}
+.safety-card.verified svg {
+  flex-shrink: 0;
+}
+
+.safety-card.pending {
+  color: var(--text-secondary);
+}
+.safety-card.pending svg {
+  color: var(--warning);
+  flex-shrink: 0;
+}
+
+.safety-card div {
+  flex: 1;
+}
+
+.safety-card strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.safety-card span {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.safety-action {
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  background: var(--primary);
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-xs);
+  transition: all 0.2s;
+}
+
+.safety-tip {
+  font-size: 12px;
+  color: var(--text-muted);
+  padding: 4px;
+  line-height: 1.4;
+}

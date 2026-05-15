@@ -38,7 +38,7 @@ export default function Matches() {
           <p className="match-subtitle">People you both liked</p>
           <div className="match-grid">
             {matches.map((m) => (
-              <button key={m.id} className="match-card pressable" onClick={() => navigate('/messages')}>
+              <button key={m.id} className="match-card pressable" onClick={() => navigate(`/roommate/${m.id}`)}>
                 <div className="match-photo-wrap">
                   <img src={m.photos[0]} alt={m.name} />
                   <div className="match-compat-badge">{m.compatibility}%</div>
