@@ -1,74 +1,80 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sparkles, MessageCircle } from 'lucide-react';
+import { Sparkles, Heart } from 'lucide-react';
+import Logo from '../components/Logo';
 import BottomNav from '../components/BottomNav';
 import { roommates } from '../data/mockData';
 import './Matches.css';
 
 export default function Matches() {
   const navigate = useNavigate();
-  const matched = roommates.slice(0, 4);
+  const [tab, setTab] = useState('matches');
+  const matches = roommates.slice(0, 3);
+  const liked = roommates.slice(3);
 
   return (
-    <div className="matches-page">
-      <div className="matches-header">
-        <h1 className="page-title">
-          <Sparkles size={22} className="title-icon" />
-          Your Matches
-        </h1>
-        <p className="matches-subtitle">People who also liked you back</p>
+    <div className="matches-page page-enter">
+      <div className="matches-header glass">
+        <Logo size="sm" showText={false} />
+        <h1 className="page-title">Matches</h1>
+        <div style={{ width: 28 }} />
       </div>
 
-      <div className="new-matches-section">
-        <h3 className="sub-heading">New Matches</h3>
-        <div className="new-matches-row">
-          {matched.slice(0, 3).map((r) => (
-            <div key={r.id} className="new-match-bubble" onClick={() => navigate(`/messages`)}>
-              <div className="match-avatar-wrap">
-                <img src={r.avatar} alt={r.name} />
-                <div className="match-compat">{r.compatibility}%</div>
-              </div>
-              <span className="match-name">{r.name.split(' ')[0]}</span>
-            </div>
-          ))}
-          <div className="new-match-bubble see-all">
-            <div className="match-avatar-wrap placeholder">
-              <span>+2</span>
-            </div>
-            <span className="match-name">See all</span>
+      <div className="matches-tabs">
+        <button className={`tab-btn ${tab === 'matches' ? 'active' : ''}`} onClick={() => setTab('matches')}>
+          <Sparkles size={14} />
+          Matches
+          <span className="tab-count">{matches.length}</span>
+        </button>
+        <button className={`tab-btn ${tab === 'liked' ? 'active' : ''}`} onClick={() => setTab('liked')}>
+          <Heart size={14} />
+          Liked You
+          <span className="tab-count">{liked.length}</span>
+        </button>
+      </div>
+
+      {tab === 'matches' && (
+        <div className="match-content stagger-children">
+          <p className="match-subtitle">People you both liked</p>
+          <div className="match-grid">
+            {matches.map((m) => (
+              <button key={m.id} className="match-card pressable" onClick={() => navigate('/messages')}>
+                <div className="match-photo-wrap">
+                  <img src={m.photos[0]} alt={m.name} />
+                  <div className="match-compat-badge">{m.compatibility}%</div>
+                </div>
+                <span className="match-name">{m.name.split(' ')[0]}</span>
+                <span className="match-meta">{m.age} · {m.occupation.split(' ')[0]}</span>
+              </button>
+            ))}
           </div>
         </div>
-      </div>
+      )}
 
-      <div className="match-list-section">
-        <h3 className="sub-heading">All Matches</h3>
-        {matched.map((r) => (
-          <div key={r.id} className="match-list-card" onClick={() => navigate('/messages')}>
-            <img src={r.avatar} alt={r.name} className="match-list-avatar" />
-            <div className="match-list-info">
-              <div className="match-list-name-row">
-                <h4>{r.name}</h4>
-                {r.verified && (
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--success)">
-                    <path d="M12 2L14.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-                  </svg>
-                )}
-              </div>
-              <p className="match-list-detail">{r.occupation}</p>
-              <div className="match-list-tags">
-                {r.tags.slice(0, 3).map((t) => (
-                  <span key={t} className="mini-tag">{t}</span>
-                ))}
-              </div>
+      {tab === 'liked' && (
+        <div className="match-content stagger-children">
+          <div className="liked-banner">
+            <div className="liked-banner-icon">
+              <Heart size={20} fill="white" />
             </div>
-            <div className="match-list-right">
-              <div className="match-score">{r.compatibility}%</div>
-              <button className="msg-btn" onClick={(e) => { e.stopPropagation(); navigate('/messages'); }}>
-                <MessageCircle size={16} />
-              </button>
+            <div>
+              <p className="liked-banner-title">{liked.length} people liked you</p>
+              <p className="liked-banner-desc">Upgrade to Paire+ to see who</p>
             </div>
           </div>
-        ))}
-      </div>
+          <div className="liked-grid">
+            {liked.map((m) => (
+              <div key={m.id} className="liked-card">
+                <div className="liked-photo-wrap">
+                  <img src={m.photos[0]} alt={m.name} />
+                  <div className="liked-blur" />
+                </div>
+                <span className="liked-name">{m.name.split(' ')[0]}, {m.age}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <BottomNav />
     </div>

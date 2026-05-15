@@ -1,39 +1,31 @@
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Shield, Sparkles, Heart, Users } from 'lucide-react';
+import { ArrowRight, Shield, Sparkles, Heart, Users, Star, ChevronRight } from 'lucide-react';
+import Logo from '../components/Logo';
 import './Landing.css';
 
 export default function Landing() {
   const navigate = useNavigate();
 
   return (
-    <div className="landing">
+    <div className="landing page-enter">
       <div className="landing-hero">
-        <div className="hero-bg-shapes">
-          <div className="shape shape-1" />
-          <div className="shape shape-2" />
-          <div className="shape shape-3" />
+        <div className="hero-bg">
+          <div className="hero-orb orb-1" />
+          <div className="hero-orb orb-2" />
+          <div className="hero-orb orb-3" />
+          <div className="hero-grid" />
         </div>
 
         <div className="hero-content">
-          <div className="logo-mark">
-            <div className="logo-icon">
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                <path d="M16 4C10 4 6 8.5 6 13.5C6 18 9 21 12 23L16 28L20 23C23 21 26 18 26 13.5C26 8.5 22 4 16 4Z" fill="white" fillOpacity="0.9"/>
-                <circle cx="12.5" cy="13" r="2.5" fill="#7C5CFC"/>
-                <circle cx="19.5" cy="13" r="2.5" fill="#FF6B6B"/>
-                <path d="M13 18C13 18 14.5 20 16 20C17.5 20 19 18 19 18" stroke="#7C5CFC" strokeWidth="1.5" strokeLinecap="round"/>
-              </svg>
-            </div>
-            <h1 className="logo-text">paire</h1>
-          </div>
+          <Logo size="lg" variant="white" />
 
           <h2 className="hero-headline">
-            Find your <span className="highlight">perfect</span><br />
-            roommate
+            Find your<br />
+            <span className="highlight">perfect</span> roommate
           </h2>
           <p className="hero-sub">
-            Smart matching. Verified profiles.<br />
-            No more Craigslist nightmares.
+            Smart matching based on lifestyle,<br />
+            not just budget.
           </p>
 
           <button className="cta-primary" onClick={() => navigate('/quiz')}>
@@ -41,8 +33,9 @@ export default function Landing() {
             <ArrowRight size={18} />
           </button>
 
-          <button className="cta-secondary" onClick={() => navigate('/discover')}>
-            Explore First
+          <button className="cta-ghost" onClick={() => navigate('/discover')}>
+            Explore profiles first
+            <ChevronRight size={16} />
           </button>
 
           <div className="social-proof">
@@ -51,54 +44,67 @@ export default function Landing() {
               <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face" alt="" />
               <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="" />
               <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face" alt="" />
+              <div className="avatar-count">+2k</div>
             </div>
-            <span className="proof-text">2,400+ matched this month</span>
+            <div className="proof-text">
+              <span className="proof-highlight">2,400+</span> matched this month
+            </div>
           </div>
         </div>
       </div>
 
       <div className="features-section">
-        <h3 className="section-title">Why Paire?</h3>
-        <div className="features-grid">
-          <div className="feature-card">
-            <div className="feature-icon" style={{ background: 'linear-gradient(135deg, #7C5CFC, #A78BFA)' }}>
-              <Sparkles size={20} color="white" />
+        <div className="section-header">
+          <span className="section-eyebrow">Why Paire?</span>
+          <h3 className="section-title">Everything you need to<br />find your person</h3>
+        </div>
+        <div className="features-grid stagger-children">
+          {[
+            { icon: Sparkles, title: 'AI Matching', desc: 'Compatibility scores from 50+ lifestyle factors', color: '#7C5CFC', bg: '#F5F3FF' },
+            { icon: Shield, title: 'Verified Only', desc: 'ID verification & background checks built in', color: '#34D399', bg: '#D1FAE5' },
+            { icon: Heart, title: 'Vibe Check', desc: 'Personality prompts that show who you really are', color: '#FF6B6B', bg: '#FFF1F1' },
+            { icon: Users, title: 'Real People', desc: 'No bots, no scams — just people looking for a home', color: '#FBBF24', bg: '#FEF9C3' },
+          ].map(({ icon: Icon, title, desc, color, bg }) => (
+            <div key={title} className="feature-card pressable">
+              <div className="feature-icon" style={{ background: bg, color }}>
+                <Icon size={20} />
+              </div>
+              <div className="feature-text">
+                <h4>{title}</h4>
+                <p>{desc}</p>
+              </div>
             </div>
-            <h4>AI Matching</h4>
-            <p>Compatibility scores based on 50+ lifestyle factors</p>
-          </div>
-          <div className="feature-card">
-            <div className="feature-icon" style={{ background: 'linear-gradient(135deg, #34D399, #6EE7B7)' }}>
-              <Shield size={20} color="white" />
-            </div>
-            <h4>Verified Profiles</h4>
-            <p>ID verification & background checks for peace of mind</p>
-          </div>
-          <div className="feature-card">
-            <div className="feature-icon" style={{ background: 'linear-gradient(135deg, #FF6B6B, #FFA07A)' }}>
-              <Heart size={20} color="white" />
-            </div>
-            <h4>Vibe Check</h4>
-            <p>Personality prompts that show who you really are</p>
-          </div>
-          <div className="feature-card">
-            <div className="feature-icon" style={{ background: 'linear-gradient(135deg, #FBBF24, #F59E0B)' }}>
-              <Users size={20} color="white" />
-            </div>
-            <h4>Real People</h4>
-            <p>No bots, no scams — just people looking for a home</p>
-          </div>
+          ))}
         </div>
       </div>
 
-      <div className="testimonials-section">
-        <h3 className="section-title">Real Stories</h3>
+      <div className="how-section">
+        <div className="section-header">
+          <span className="section-eyebrow">How it works</span>
+          <h3 className="section-title">Three steps to your<br />new roommate</h3>
+        </div>
+        <div className="steps stagger-children">
+          {[
+            { num: '01', title: 'Take the quiz', desc: 'Answer lifestyle questions so we can find your match' },
+            { num: '02', title: 'Browse matches', desc: 'Swipe through compatible roommates in your area' },
+            { num: '03', title: 'Connect & move in', desc: 'Chat, meet up, and find your perfect place together' },
+          ].map(({ num, title, desc }) => (
+            <div key={num} className="step-card">
+              <span className="step-num">{num}</span>
+              <div>
+                <h4>{title}</h4>
+                <p>{desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="testimonial-section">
         <div className="testimonial-card">
           <div className="stars">
             {[...Array(5)].map((_, i) => (
-              <svg key={i} width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24">
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-              </svg>
+              <Star key={i} size={14} fill="#FBBF24" stroke="#FBBF24" />
             ))}
           </div>
           <p className="testimonial-text">
@@ -115,11 +121,12 @@ export default function Landing() {
       </div>
 
       <div className="bottom-cta">
-        <h3>Ready to find your person?</h3>
+        <h3>Ready to find<br />your person?</h3>
         <button className="cta-primary" onClick={() => navigate('/quiz')}>
           Take the Quiz
           <ArrowRight size={18} />
         </button>
+        <p className="bottom-note">Free to use · No credit card required</p>
       </div>
     </div>
   );

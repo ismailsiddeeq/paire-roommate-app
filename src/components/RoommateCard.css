@@ -1,15 +1,46 @@
 .roommate-card {
   background: var(--bg-card);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-2xl);
   overflow: hidden;
   box-shadow: var(--shadow-lg);
-  animation: fadeInUp 0.4s ease-out;
+  animation: scaleIn 0.4s var(--ease-spring);
+  position: relative;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+/* Swipe overlays */
+.swipe-overlay {
+  position: absolute;
+  top: 80px;
+  z-index: 10;
+  padding: 8px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  pointer-events: none;
+  transition: opacity 0.1s;
+}
+
+.swipe-like {
+  left: 20px;
+  color: var(--success);
+  border: 3px solid var(--success);
+  transform: rotate(-15deg);
+}
+
+.swipe-nope {
+  right: 20px;
+  color: var(--accent);
+  border: 3px solid var(--accent);
+  transform: rotate(15deg);
 }
 
 .card-photo-section {
   position: relative;
   width: 100%;
-  height: 420px;
+  height: 440px;
   overflow: hidden;
   cursor: pointer;
 }
@@ -18,30 +49,29 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.25s ease;
 }
 
 .photo-indicators {
   position: absolute;
-  top: 12px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 14px;
+  left: 16px;
+  right: 16px;
   display: flex;
   gap: 4px;
   z-index: 3;
 }
 
 .photo-dot {
-  width: 32px;
+  flex: 1;
   height: 3px;
   border-radius: 3px;
-  background: rgba(255, 255, 255, 0.4);
-  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.35);
+  transition: background 0.3s ease;
 }
 
 .photo-dot.active {
   background: white;
-  width: 40px;
 }
 
 .card-gradient {
@@ -49,16 +79,16 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 200px;
-  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+  height: 220px;
+  background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
   z-index: 1;
 }
 
 .card-header-info {
   position: absolute;
-  bottom: 16px;
-  left: 16px;
-  right: 16px;
+  bottom: 18px;
+  left: 18px;
+  right: 18px;
   z-index: 2;
   color: white;
 }
@@ -72,89 +102,99 @@
 
 .card-name-row h2 {
   font-family: var(--font-serif);
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 600;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.2);
 }
 
 .verified-badge {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 3px;
-  background: rgba(52, 211, 153, 0.9);
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: var(--success);
   color: white;
-  padding: 3px 8px;
-  border-radius: var(--radius-full);
-  font-size: 11px;
-  font-weight: 600;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(52, 211, 153, 0.4);
 }
 
 .card-detail {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   font-size: 13px;
   opacity: 0.9;
   margin-bottom: 2px;
+  font-weight: 400;
 }
 
 .card-body {
-  padding: 16px;
+  padding: 18px;
 }
 
-.compatibility-bar {
+/* Compatibility ring */
+.compatibility-section {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: var(--bg-subtle);
+  border-radius: var(--radius-lg);
   margin-bottom: 16px;
 }
 
-.compat-header {
+.compat-ring {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+}
+
+.compat-ring svg {
+  width: 100%;
+  height: 100%;
+}
+
+.compat-num {
+  position: absolute;
+  inset: 0;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 6px;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--primary-dark);
+}
+
+.compat-info {
+  display: flex;
+  flex-direction: column;
 }
 
 .compat-label {
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
-.compat-score {
-  font-size: 20px;
-  font-weight: 800;
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.compat-track {
-  height: 6px;
-  background: var(--border-light);
-  border-radius: var(--radius-full);
-  overflow: hidden;
-}
-
-.compat-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--primary), var(--primary-light), var(--accent));
-  border-radius: var(--radius-full);
-  transition: width 1s ease-out;
+.compat-desc {
+  font-size: 11px;
+  color: var(--text-muted);
 }
 
 .card-meta {
   display: flex;
   gap: 8px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .meta-chip {
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 6px 12px;
+  padding: 7px 12px;
   background: var(--bg-subtle);
   border-radius: var(--radius-full);
   font-size: 12px;
@@ -171,12 +211,11 @@
 
 .tag {
   padding: 5px 12px;
-  background: linear-gradient(135deg, rgba(124,92,252,0.08), rgba(167,139,250,0.12));
+  background: var(--primary-ultralight);
   color: var(--primary-dark);
   border-radius: var(--radius-full);
   font-size: 12px;
   font-weight: 500;
-  border: 1px solid rgba(124,92,252,0.15);
 }
 
 .prompt-card {
@@ -185,14 +224,15 @@
   padding: 14px 16px;
   margin-bottom: 8px;
   border-left: 3px solid var(--primary);
+  animation: fadeInUp 0.3s var(--ease-out) both;
 }
 
 .prompt-question {
   display: block;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   color: var(--primary);
   margin-bottom: 4px;
 }
@@ -200,82 +240,101 @@
 .prompt-answer {
   font-size: 14px;
   color: var(--text-primary);
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .expand-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 5px;
   width: 100%;
-  padding: 8px;
+  padding: 10px;
   background: none;
   color: var(--text-muted);
   font-size: 13px;
   font-weight: 500;
   transition: color 0.2s;
+  border-radius: var(--radius-sm);
 }
 
 .expand-btn:hover {
   color: var(--primary);
+  background: var(--bg-subtle);
 }
 
 .card-actions {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 16px;
-  padding: 12px 16px 20px;
+  gap: 18px;
+  padding: 8px 18px 22px;
 }
 
 .action-btn {
-  width: 56px;
-  height: 56px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
-  box-shadow: var(--shadow-md);
-}
-
-.action-btn:active {
-  transform: scale(0.9);
+  transition: all 0.25s var(--ease-spring);
 }
 
 .action-btn.pass {
+  width: 52px;
+  height: 52px;
   background: white;
   color: var(--text-muted);
-  border: 2px solid var(--border);
+  border: 1.5px solid var(--border);
+  box-shadow: var(--shadow-sm);
 }
 
 .action-btn.pass:hover {
   border-color: var(--accent);
   color: var(--accent);
+  box-shadow: var(--shadow-accent);
 }
 
 .action-btn.superlike {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   background: white;
   color: var(--warning);
-  border: 2px solid var(--warning);
+  border: 1.5px solid rgba(251, 191, 36, 0.4);
+  box-shadow: var(--shadow-sm);
 }
 
 .action-btn.superlike:hover {
   background: var(--warning);
   color: white;
+  border-color: var(--warning);
 }
 
 .action-btn.like {
+  width: 60px;
+  height: 60px;
   background: linear-gradient(135deg, var(--accent), #FF8A8A);
   color: white;
-  width: 64px;
-  height: 64px;
+  box-shadow: var(--shadow-accent);
 }
 
 .action-btn.like:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 30px rgba(255,107,107,0.4);
+  transform: scale(1.08);
+  box-shadow: 0 12px 40px rgba(255,107,107,0.4);
+}
+
+/* Swiping states */
+.swiping-right {
+  animation: swipeRight 0.3s var(--ease-out) forwards;
+}
+
+.swiping-left {
+  animation: swipeLeft 0.3s var(--ease-out) forwards;
+}
+
+@keyframes swipeRight {
+  to { transform: translateX(120%) rotate(15deg); opacity: 0; }
+}
+
+@keyframes swipeLeft {
+  to { transform: translateX(-120%) rotate(-15deg); opacity: 0; }
 }

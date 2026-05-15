@@ -1,0 +1,43 @@
+.paire-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-mark {
+  flex-shrink: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  filter: drop-shadow(0 2px 8px rgba(124, 92, 252, 0.25));
+}
+
+.logo-mark svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.logo-wordmark {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.logo-sm .logo-wordmark { font-size: 20px; }
+.logo-md .logo-wordmark { font-size: 26px; }
+.logo-lg .logo-wordmark { font-size: 34px; }
+.logo-xl .logo-wordmark { font-size: 44px; }
+
+.logo-white .logo-wordmark {
+  background: none;
+  -webkit-text-fill-color: white;
+  color: white;
+}
+
+.logo-white .logo-mark {
+  filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.2));
+}

@@ -1,94 +1,109 @@
 import { useNavigate } from 'react-router-dom';
-import { Settings, Edit3, Shield, MapPin, Briefcase, Calendar, Camera, ChevronRight, LogOut, Bell, Lock, HelpCircle, Star } from 'lucide-react';
+import { Settings, Edit3, Shield, MapPin, ChevronRight, Crown, Bell, Lock, HelpCircle, LogOut } from 'lucide-react';
+import Logo from '../components/Logo';
 import BottomNav from '../components/BottomNav';
 import './Profile.css';
 
 export default function Profile() {
   const navigate = useNavigate();
 
-  const menuItems = [
-    { icon: Edit3, label: 'Edit Profile', desc: 'Photos, prompts, preferences' },
-    { icon: Shield, label: 'Verification', desc: 'ID verified', badge: 'Verified', badgeColor: 'green' },
-    { icon: Bell, label: 'Notifications', desc: 'Push, email, in-app' },
-    { icon: Lock, label: 'Privacy & Safety', desc: 'Block list, data, visibility' },
-    { icon: Star, label: 'Upgrade to Premium', desc: 'Unlimited likes, priority matching', badge: 'Pro', badgeColor: 'purple' },
-    { icon: HelpCircle, label: 'Help & Support', desc: 'FAQ, contact us' },
-  ];
-
   return (
-    <div className="profile-page">
-      <div className="profile-hero">
-        <div className="profile-hero-bg" />
-        <button className="settings-btn">
-          <Settings size={20} />
+    <div className="profile-page page-enter">
+      <div className="profile-header-bg">
+        <div className="profile-header-orbs">
+          <div className="p-orb p-orb-1" />
+          <div className="p-orb p-orb-2" />
+        </div>
+      </div>
+
+      <div className="profile-main">
+        <div className="profile-card">
+          <div className="profile-photo-section">
+            <div className="profile-photo-wrap">
+              <img
+                src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&h=300&fit=crop&crop=face"
+                alt="Profile"
+              />
+              <button className="edit-photo-btn pressable">
+                <Edit3 size={14} />
+              </button>
+            </div>
+          </div>
+          <h2 className="profile-name">Alex Chen</h2>
+          <div className="profile-location">
+            <MapPin size={12} />
+            <span>New York, NY</span>
+          </div>
+          <div className="profile-stats">
+            <div className="stat">
+              <span className="stat-num">12</span>
+              <span className="stat-label">Matches</span>
+            </div>
+            <div className="stat-divider" />
+            <div className="stat">
+              <span className="stat-num">89%</span>
+              <span className="stat-label">Profile</span>
+            </div>
+            <div className="stat-divider" />
+            <div className="stat">
+              <span className="stat-num">5</span>
+              <span className="stat-label">Chats</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="profile-upgrade pressable">
+          <div className="upgrade-icon">
+            <Crown size={18} />
+          </div>
+          <div className="upgrade-text">
+            <span className="upgrade-title">Upgrade to Paire+</span>
+            <span className="upgrade-desc">See who liked you & unlimited swipes</span>
+          </div>
+          <ChevronRight size={18} />
+        </div>
+
+        <div className="profile-section">
+          <h3 className="section-label">My Prompts</h3>
+          <div className="prompt-preview">
+            <span className="prompt-q">My ideal roommate...</span>
+            <p>Is tidy in shared spaces but doesn't judge if my room is messy sometimes</p>
+          </div>
+          <div className="prompt-preview">
+            <span className="prompt-q">On weekends you'll find me...</span>
+            <p>At a coffee shop with a book or exploring a new neighborhood</p>
+          </div>
+        </div>
+
+        <div className="profile-section">
+          <h3 className="section-label">Settings</h3>
+          <div className="settings-list stagger-children">
+            {[
+              { icon: Edit3, label: 'Edit Profile', desc: 'Photos, prompts, preferences' },
+              { icon: Shield, label: 'Verification', desc: 'ID verified', accent: true },
+              { icon: Bell, label: 'Notifications', desc: 'Push, email, in-app' },
+              { icon: Lock, label: 'Privacy', desc: 'Visibility, blocking' },
+              { icon: HelpCircle, label: 'Help & Support', desc: 'FAQ, contact us' },
+            ].map(({ icon: Icon, label, desc, accent }) => (
+              <button key={label} className="settings-item pressable">
+                <div className={`settings-icon ${accent ? 'accent' : ''}`}>
+                  <Icon size={17} />
+                </div>
+                <div className="settings-text">
+                  <span className="settings-label">{label}</span>
+                  <span className="settings-desc">{desc}</span>
+                </div>
+                <ChevronRight size={16} className="settings-arrow" />
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <button className="logout-btn pressable" onClick={() => navigate('/')}>
+          <LogOut size={16} />
+          Log Out
         </button>
-        <div className="profile-avatar-section">
-          <div className="profile-avatar-wrap">
-            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face" alt="You" />
-            <button className="avatar-edit-btn">
-              <Camera size={14} />
-            </button>
-          </div>
-          <h2 className="profile-name">You</h2>
-          <div className="profile-details">
-            <span className="profile-detail"><Briefcase size={13} /> Software Developer</span>
-            <span className="profile-detail"><MapPin size={13} /> New York, NY</span>
-            <span className="profile-detail"><Calendar size={13} /> Looking from July 2025</span>
-          </div>
-        </div>
       </div>
-
-      <div className="profile-stats">
-        <div className="stat">
-          <span className="stat-num">12</span>
-          <span className="stat-label">Matches</span>
-        </div>
-        <div className="stat-divider" />
-        <div className="stat">
-          <span className="stat-num">94%</span>
-          <span className="stat-label">Profile Score</span>
-        </div>
-        <div className="stat-divider" />
-        <div className="stat">
-          <span className="stat-num">3</span>
-          <span className="stat-label">Chats</span>
-        </div>
-      </div>
-
-      <div className="profile-prompts-preview">
-        <h3 className="section-label">Your Prompts</h3>
-        <div className="prompt-preview-card">
-          <span className="prompt-q">My ideal Sunday looks like</span>
-          <p className="prompt-a">Coffee, a good book, and maybe brunch with friends if I'm feeling social</p>
-        </div>
-        <div className="prompt-preview-card">
-          <span className="prompt-q">I'm looking for a roommate who</span>
-          <p className="prompt-a">Is respectful of shared spaces and down for the occasional movie night</p>
-        </div>
-      </div>
-
-      <div className="profile-menu">
-        {menuItems.map(({ icon: Icon, label, desc, badge, badgeColor }) => (
-          <div key={label} className="menu-item">
-            <div className="menu-icon">
-              <Icon size={18} />
-            </div>
-            <div className="menu-info">
-              <div className="menu-label-row">
-                <span className="menu-label">{label}</span>
-                {badge && <span className={`menu-badge ${badgeColor}`}>{badge}</span>}
-              </div>
-              <span className="menu-desc">{desc}</span>
-            </div>
-            <ChevronRight size={16} className="menu-arrow" />
-          </div>
-        ))}
-      </div>
-
-      <button className="logout-btn" onClick={() => navigate('/')}>
-        <LogOut size={16} />
-        Sign Out
-      </button>
 
       <BottomNav />
     </div>

@@ -1,97 +1,88 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, Sunrise, Sparkles, Users, Volume2, Moon, Heart } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
+import Logo from '../components/Logo';
 import { quizQuestions } from '../data/mockData';
 import './Quiz.css';
 
-const iconMap = {
-  sunrise: Sunrise,
-  sparkles: Sparkles,
-  users: Users,
-  volume: Volume2,
-  moon: Moon,
-  heart: Heart,
-};
-
 export default function Quiz() {
   const navigate = useNavigate();
-  const [current, setCurrent] = useState(0);
+  const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState({});
-  const [animating, setAnimating] = useState(false);
+  const [animDir, setAnimDir] = useState('forward');
 
-  const question = quizQuestions[current];
-  const Icon = iconMap[question.icon];
-  const progress = ((current + 1) / quizQuestions.length) * 100;
+  const question = quizQuestions[step];
+  const progress = ((step + 1) / quizQuestions.length) * 100;
+  const isLast = step === quizQuestions.length - 1;
 
   const selectAnswer = (optionIdx) => {
-    setAnswers({ ...answers, [question.id]: optionIdx });
-    if (current < quizQuestions.length - 1) {
-      setAnimating(true);
-      setTimeout(() => {
-        setCurrent(current + 1);
-        setAnimating(false);
-      }, 300);
+    setAnswers({ ...answers, [step]: optionIdx });
+  };
+
+  const next = () => {
+    if (isLast) {
+      navigate('/discover');
+      return;
+    }
+    setAnimDir('forward');
+    setTimeout(() => setStep(step + 1), 50);
+  };
+
+  const prev = () => {
+    if (step > 0) {
+      setAnimDir('backward');
+      setTimeout(() => setStep(step - 1), 50);
     }
   };
 
-  const finish = () => {
-    navigate('/discover');
-  };
-
-  const isLast = current === quizQuestions.length - 1;
-  const hasAnswer = answers[question.id] !== undefined;
-
   return (
-    <div className="quiz-page">
+    <div className="quiz-page page-enter">
       <div className="quiz-header">
-        <button className="back-btn" onClick={() => current > 0 ? setCurrent(current - 1) : navigate('/')}>
+        <button className="quiz-back pressable" onClick={() => step > 0 ? prev() : navigate('/')}>
           <ArrowLeft size={20} />
         </button>
-        <div className="progress-bar">
-          <div className="progress-fill" style={{ width: `${progress}%` }} />
-        </div>
-        <span className="progress-text">{current + 1}/{quizQuestions.length}</span>
+        <Logo size="sm" showText={false} />
+        <span className="quiz-step-label">{step + 1}/{quizQuestions.length}</span>
       </div>
 
-      <div className={`quiz-content ${animating ? 'quiz-exit' : 'quiz-enter'}`}>
-        <div className="quiz-icon-wrap">
-          <Icon size={28} />
-        </div>
+      <div className="quiz-progress-track">
+        <div className="quiz-progress-fill" style={{ width: `${progress}%` }} />
+      </div>
+
+      <div className={`quiz-content ${animDir}`} key={step}>
+        <div className="quiz-emoji">{question.emoji}</div>
         <h2 className="quiz-question">{question.question}</h2>
+        <p className="quiz-helper">{question.helper || 'Select the one that fits you best'}</p>
 
         <div className="quiz-options">
-          {question.options.map((option, idx) => (
+          {question.options.map((option, i) => (
             <button
-              key={idx}
-              className={`quiz-option ${answers[question.id] === idx ? 'selected' : ''}`}
-              onClick={() => selectAnswer(idx)}
+              key={i}
+              className={`quiz-option pressable ${answers[step] === i ? 'selected' : ''}`}
+              onClick={() => selectAnswer(i)}
+              style={{ animationDelay: `${i * 0.06}s` }}
             >
-              <span className="option-indicator">
-                {answers[question.id] === idx ? (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                    <circle cx="12" cy="12" r="10" fill="var(--primary)" />
-                    <path d="M8 12l3 3 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                ) : (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                    <circle cx="12" cy="12" r="10" stroke="var(--border)" strokeWidth="2" />
-                  </svg>
-                )}
-              </span>
-              {option}
+              <span className="option-text">{option}</span>
+              {answers[step] === i && (
+                <div className="option-check">
+                  <Check size={14} />
+                </div>
+              )}
             </button>
           ))}
         </div>
       </div>
 
-      {isLast && hasAnswer && (
-        <div className="quiz-footer animate-fade-in-up">
-          <button className="cta-primary finish-btn" onClick={finish}>
-            Find My Matches
-            <ArrowRight size={18} />
-          </button>
-        </div>
-      )}
+      <div className="quiz-footer">
+        <button
+          className={`quiz-next pressable ${answers[step] !== undefined ? 'active' : ''}`}
+          onClick={next}
+          disabled={answers[step] === undefined}
+        >
+          {isLast ? 'Find my matches' : 'Continue'}
+          <ArrowRight size={17} />
+        </button>
+      </div>
     </div>
   );
 }

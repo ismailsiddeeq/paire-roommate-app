@@ -1,58 +1,78 @@
 .profile-page {
   min-height: 100vh;
-  background: var(--bg-white);
-  padding-bottom: 100px;
-}
-
-.profile-hero {
+  background: var(--bg-primary);
+  padding-bottom: calc(var(--nav-height) + 20px);
   position: relative;
-  padding: 24px 20px 20px;
-  text-align: center;
 }
 
-.profile-hero-bg {
+.profile-header-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: linear-gradient(160deg, var(--primary), var(--primary-dark));
+  border-radius: 0 0 32px 32px;
+  overflow: hidden;
+}
+
+.profile-header-orbs {
   position: absolute;
   inset: 0;
-  height: 140px;
-  background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--accent));
-  border-radius: 0 0 24px 24px;
 }
 
-.settings-btn {
+.p-orb {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 40px;
-  height: 40px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.2);
-  backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  z-index: 2;
-  transition: all 0.2s;
+  filter: blur(40px);
 }
 
-.settings-btn:hover {
-  background: rgba(255,255,255,0.3);
+.p-orb-1 {
+  width: 200px;
+  height: 200px;
+  background: rgba(255,107,107,0.2);
+  top: -60px;
+  right: -40px;
 }
 
-.profile-avatar-section {
+.p-orb-2 {
+  width: 150px;
+  height: 150px;
+  background: rgba(167,139,250,0.3);
+  bottom: -40px;
+  left: -40px;
+}
+
+.profile-main {
   position: relative;
   z-index: 2;
-  padding-top: 40px;
+  padding: 100px 16px 0;
 }
 
-.profile-avatar-wrap {
+/* Profile card */
+.profile-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-2xl);
+  padding: 0 20px 22px;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  margin-bottom: 14px;
+}
+
+.profile-photo-section {
+  display: flex;
+  justify-content: center;
+  margin-top: -50px;
+  margin-bottom: 12px;
+}
+
+.profile-photo-wrap {
   position: relative;
   width: 96px;
   height: 96px;
-  margin: 0 auto 12px;
 }
 
-.profile-avatar-wrap img {
+.profile-photo-wrap img {
   width: 100%;
   height: 100%;
   border-radius: 50%;
@@ -61,10 +81,10 @@
   box-shadow: var(--shadow-md);
 }
 
-.avatar-edit-btn {
+.edit-photo-btn {
   position: absolute;
-  bottom: 2px;
-  right: 2px;
+  bottom: 0;
+  right: -2px;
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -73,42 +93,33 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid white;
+  box-shadow: var(--shadow-sm);
 }
 
 .profile-name {
   font-family: var(--font-serif);
   font-size: 22px;
   font-weight: 600;
-  margin-bottom: 6px;
+  margin-bottom: 2px;
 }
 
-.profile-details {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
-}
-
-.profile-detail {
+.profile-location {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 4px;
-  font-size: 12px;
-  color: var(--text-secondary);
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
 }
 
-/* Stats */
 .profile-stats {
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 24px;
-  padding: 20px;
-  margin: 0 20px;
-  background: var(--bg-subtle);
-  border-radius: var(--radius-xl);
-  border: 1px solid rgba(124,92,252,0.1);
+  justify-content: center;
+  gap: 20px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-light);
 }
 
 .stat {
@@ -118,12 +129,9 @@
 }
 
 .stat-num {
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 800;
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--primary);
 }
 
 .stat-label {
@@ -134,30 +142,71 @@
 
 .stat-divider {
   width: 1px;
-  height: 32px;
-  background: var(--border);
+  height: 28px;
+  background: var(--border-light);
 }
 
-/* Prompts Preview */
-.profile-prompts-preview {
-  padding: 20px;
+/* Upgrade */
+.profile-upgrade {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, #FFF7ED, #FEF3C7);
+  border: 1px solid rgba(251,191,36,0.2);
+  border-radius: var(--radius-lg);
+  margin-bottom: 14px;
+  color: var(--text-primary);
+}
+
+.upgrade-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, #FBBF24, #F59E0B);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.upgrade-text {
+  flex: 1;
+}
+
+.upgrade-title {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.upgrade-desc {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+/* Sections */
+.profile-section {
+  margin-bottom: 14px;
 }
 
 .section-label {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--text-muted);
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+  padding: 0 4px;
 }
 
-.prompt-preview-card {
-  background: var(--bg-subtle);
+.prompt-preview {
+  background: var(--bg-card);
   border-radius: var(--radius-lg);
   padding: 14px 16px;
-  margin-bottom: 8px;
-  border-left: 3px solid var(--primary);
+  margin-bottom: 6px;
+  border: 1px solid var(--border-light);
 }
 
 .prompt-q {
@@ -167,90 +216,77 @@
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--primary);
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
-.prompt-a {
+.prompt-preview p {
   font-size: 14px;
-  line-height: 1.5;
   color: var(--text-primary);
+  line-height: 1.5;
 }
 
-/* Menu */
-.profile-menu {
-  padding: 4px 20px 16px;
+/* Settings */
+.settings-list {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-light);
 }
 
-.menu-item {
+.settings-item {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--border-light);
-  cursor: pointer;
-  transition: opacity 0.2s;
+  width: 100%;
+  padding: 13px 14px;
+  background: none;
+  text-align: left;
+  border-bottom: 0.5px solid var(--border-light);
+  transition: background 0.15s;
 }
 
-.menu-item:last-child {
+.settings-item:last-child {
   border-bottom: none;
 }
 
-.menu-item:hover {
-  opacity: 0.8;
+.settings-item:hover {
+  background: var(--bg-subtle);
 }
 
-.menu-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-md);
+.settings-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
   background: var(--bg-subtle);
+  color: var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--primary);
   flex-shrink: 0;
 }
 
-.menu-info {
+.settings-icon.accent {
+  background: var(--success-light);
+  color: var(--success);
+}
+
+.settings-text {
   flex: 1;
 }
 
-.menu-label-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.menu-label {
+.settings-label {
+  display: block;
   font-size: 14px;
   font-weight: 600;
 }
 
-.menu-badge {
-  font-size: 10px;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: var(--radius-full);
-}
-
-.menu-badge.green {
-  background: rgba(52,211,153,0.15);
-  color: #059669;
-}
-
-.menu-badge.purple {
-  background: rgba(124,92,252,0.15);
-  color: var(--primary-dark);
-}
-
-.menu-desc {
-  font-size: 12px;
+.settings-desc {
+  font-size: 11px;
   color: var(--text-muted);
 }
 
-.menu-arrow {
-  color: var(--text-muted);
-  flex-shrink: 0;
+.settings-arrow {
+  color: var(--text-light);
 }
 
 /* Logout */
@@ -259,19 +295,17 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  margin: 8px 20px 20px;
-  padding: 12px;
+  width: 100%;
+  padding: 14px;
+  margin-top: 6px;
   background: none;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  color: var(--text-muted);
+  color: var(--accent);
   font-size: 14px;
-  font-weight: 500;
-  width: calc(100% - 40px);
-  transition: all 0.2s;
+  font-weight: 600;
+  border-radius: var(--radius-lg);
+  transition: background 0.2s;
 }
 
 .logout-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  background: #FFF1F1;
 }
