@@ -34,6 +34,7 @@ export function useChat(matchId: string) {
   }, [matchId, user, supabase]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- async data fetch, setState after await
     fetchMessages();
     markAsRead();
   }, [fetchMessages, markAsRead]);
