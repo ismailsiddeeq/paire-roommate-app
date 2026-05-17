@@ -18,12 +18,14 @@ import {
   Loader2,
 } from "lucide-react";
 import Image from "next/image";
-import type { LifestylePreferences } from "@/types/database";
+import type { LifestylePreferences, ProfilePrompt } from "@/types/database";
+import { PROMPT_OPTIONS } from "@/types/database";
 
 const STEPS = [
   "basics",
   "lifestyle",
   "budget",
+  "prompts",
   "photos",
 ] as const;
 
@@ -31,6 +33,7 @@ const STEP_TITLES = {
   basics: "About You",
   lifestyle: "Your Lifestyle",
   budget: "Budget & Move-in",
+  prompts: "Your Personality",
   photos: "Your Photos",
 };
 
@@ -42,6 +45,10 @@ export function OnboardingForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [photoFiles, setPhotoFiles] = useState<File[]>([]);
   const [photoPreviews, setPhotoPreviews] = useState<string[]>([]);
+
+  const [prompts, setPrompts] = useState<ProfilePrompt[]>(
+    (user?.prompts ?? []) as ProfilePrompt[]
+  );
 
   const [form, setForm] = useState({
     name: user?.name ?? "",
@@ -134,6 +141,7 @@ export function OnboardingForm() {
           budget_max: form.budget_max,
           move_in_date: form.move_in_date || null,
           lifestyle: form.lifestyle,
+          prompts: prompts.filter((p) => p.answer.trim()),
           avatar_url: uploadedPhotos[0] ?? user.avatar_url,
           onboarding_complete: true,
         })
@@ -446,6 +454,74 @@ export function OnboardingForm() {
                   className="mt-1.5"
                 />
               </div>
+            </div>
+          )}
+
+          {/* Step: Prompts */}
+          {currentStep === "prompts" && (
+            <div className="space-y-5">
+              <p className="text-sm text-muted-foreground">
+                Add 2-3 prompts to let potential roommates know your personality.
+                This is what makes your profile stand out!
+              </p>
+              {prompts.map((prompt, idx) => (
+                <div key={idx} className="space-y-2 rounded-xl border border-border/50 bg-card p-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-semibold text-purple-600 dark:text-purple-400">
+                      {prompt.question}
+                    </span>
+                    <button
+                      onClick={() =>
+                        setPrompts((prev) => prev.filter((_, i) => i !== idx))
+                      }
+                      className="text-xs text-muted-foreground hover:text-destructive"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                  <Textarea
+                    value={prompt.answer}
+                    onChange={(e) => {
+                      const updated = [...prompts];
+                      updated[idx] = { ...prompt, answer: e.target.value };
+                      setPrompts(updated);
+                    }}
+                    placeholder="Your answer..."
+                    rows={2}
+                    maxLength={200}
+                    className="resize-none text-sm"
+                  />
+                  <p className="text-right text-[10px] text-muted-foreground">
+                    {prompt.answer.length}/200
+                  </p>
+                </div>
+              ))}
+              {prompts.length < 3 && (
+                <div className="space-y-2">
+                  <p className="text-xs font-medium text-muted-foreground">
+                    Choose a prompt:
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {PROMPT_OPTIONS.filter(
+                      (opt) => !prompts.some((p) => p.question === opt)
+                    ).map((opt) => (
+                      <Badge
+                        key={opt}
+                        variant="outline"
+                        className="cursor-pointer px-3 py-1.5 text-xs transition-colors hover:bg-purple-50 hover:text-purple-700 dark:hover:bg-purple-900/20"
+                        onClick={() =>
+                          setPrompts((prev) => [
+                            ...prev,
+                            { question: opt, answer: "" },
+                          ])
+                        }
+                      >
+                        {opt}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
 

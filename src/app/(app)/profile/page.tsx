@@ -6,9 +6,10 @@ import { useAuthStore } from "@/stores/auth-store";
 import { createClient } from "@/lib/supabase/client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
+import { ProfileCompletion } from "@/components/profile/profile-completion";
+import { VerificationBadge } from "@/components/profile/verification-badge";
 import {
   Settings,
   Edit,
@@ -18,10 +19,11 @@ import {
   MapPin,
   DollarSign,
   Briefcase,
+  BadgeCheck,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
-import type { LifestylePreferences } from "@/types/database";
+import type { LifestylePreferences, ProfilePrompt } from "@/types/database";
 
 export default function ProfilePage() {
   const { user, setUser } = useAuthStore();
@@ -38,6 +40,7 @@ export default function ProfilePage() {
   if (!user) return null;
 
   const lifestyle = user.lifestyle as LifestylePreferences;
+  const prompts = (user.prompts ?? []) as ProfilePrompt[];
   const budgetStr =
     user.budget_min && user.budget_max
       ? `$${user.budget_min} - $${user.budget_max}/mo`
@@ -76,14 +79,17 @@ export default function ProfilePage() {
             </AvatarFallback>
           </Avatar>
           <div className="text-center">
-            <h2 className="text-xl font-bold">
-              {user.name}
-              {user.age && (
-                <span className="ml-1 font-normal text-muted-foreground">
-                  , {user.age}
-                </span>
-              )}
-            </h2>
+            <div className="flex items-center justify-center gap-2">
+              <h2 className="text-xl font-bold">
+                {user.name}
+                {user.age && (
+                  <span className="ml-1 font-normal text-muted-foreground">
+                    , {user.age}
+                  </span>
+                )}
+              </h2>
+              <VerificationBadge verification={user.verification} size="md" />
+            </div>
             {user.location && (
               <div className="mt-0.5 flex items-center justify-center gap-1 text-sm text-muted-foreground">
                 <MapPin className="h-3.5 w-3.5" />
@@ -97,6 +103,34 @@ export default function ProfilePage() {
           <p className="mt-4 text-center text-sm text-muted-foreground">
             {user.bio}
           </p>
+        )}
+
+        {/* Profile completion */}
+        <div className="mt-4">
+          <ProfileCompletion user={user} />
+        </div>
+
+        {/* Prompts */}
+        {prompts.length > 0 && (
+          <div className="mt-5 space-y-3">
+            <h3 className="text-xs font-semibold uppercase text-muted-foreground">
+              Your Prompts
+            </h3>
+            {prompts.map((prompt, i) => (
+              <motion.div
+                key={i}
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: i * 0.1 }}
+                className="rounded-2xl border border-border/50 bg-card p-4"
+              >
+                <p className="text-xs font-semibold text-purple-600 dark:text-purple-400">
+                  {prompt.question}
+                </p>
+                <p className="mt-1 text-sm">{prompt.answer}</p>
+              </motion.div>
+            ))}
+          </div>
         )}
 
         {/* Quick info */}
@@ -153,6 +187,11 @@ export default function ProfilePage() {
           >
             <Settings className="h-4 w-4 text-muted-foreground" />
             <span className="text-sm font-medium">Edit Profile</span>
+          </button>
+
+          <button className="flex w-full items-center gap-3 rounded-xl px-3 py-3 transition-colors hover:bg-muted/50">
+            <BadgeCheck className="h-4 w-4 text-muted-foreground" />
+            <span className="text-sm font-medium">Get Verified</span>
           </button>
 
           <button className="flex w-full items-center gap-3 rounded-xl px-3 py-3 transition-colors hover:bg-muted/50">
