@@ -16,20 +16,26 @@ import {
   Sun,
   ChevronLeft,
   ChevronRight,
+  ChevronUp,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { CompatibilityBadge } from "@/components/swipe/compatibility-badge";
+import { VerificationBadge } from "@/components/profile/verification-badge";
 import { cn } from "@/lib/utils";
-import type { UserWithPhotos, LifestylePreferences } from "@/types/database";
+import type { UserWithPhotos, User, LifestylePreferences } from "@/types/database";
+import { calculateCompatibility } from "@/lib/compatibility";
 
 interface SwipeCardProps {
   user: UserWithPhotos;
-  onSwipe: (direction: "like" | "pass") => void;
+  currentUser?: User | null;
+  onSwipe: (direction: "like" | "pass" | "superlike") => void;
+  onTapExpand?: () => void;
   isTop?: boolean;
 }
 
 const SWIPE_THRESHOLD = 100;
 
-export function SwipeCard({ user, onSwipe, isTop = false }: SwipeCardProps) {
+export function SwipeCard({ user, currentUser, onSwipe, onTapExpand, isTop = false }: SwipeCardProps) {
   const [photoIndex, setPhotoIndex] = useState(0);
   const x = useMotionValue(0);
   const rotate = useTransform(x, [-300, 0, 300], [-15, 0, 15]);
@@ -46,6 +52,10 @@ export function SwipeCard({ user, onSwipe, isTop = false }: SwipeCardProps) {
     photos[photoIndex]?.image_url ??
     user.avatar_url ??
     `https://api.dicebear.com/9.x/notionists/svg?seed=${user.id}`;
+
+  const compatibility = currentUser
+    ? calculateCompatibility(currentUser, user)
+    : null;
 
   const handleDragEnd = useCallback(
     (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
@@ -76,6 +86,12 @@ export function SwipeCard({ user, onSwipe, isTop = false }: SwipeCardProps) {
         : user.budget_max
           ? `Up to $${user.budget_max}`
           : null;
+
+  const [now] = useState(() => Date.now());
+
+  const activeLabel = user.last_active
+    ? getActivityLabel(user.last_active, now)
+    : null;
 
   return (
     <motion.div
@@ -147,6 +163,34 @@ export function SwipeCard({ user, onSwipe, isTop = false }: SwipeCardProps) {
           </>
         )}
 
+        {/* Compatibility badge (top-right) */}
+        {compatibility && (
+          <div className="absolute right-3 top-8">
+            <CompatibilityBadge
+              score={compatibility.overall}
+              size="sm"
+              showLabel
+            />
+          </div>
+        )}
+
+        {/* Active indicator */}
+        {activeLabel && (
+          <div className="absolute left-3 top-8">
+            <div className={cn(
+              "flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium backdrop-blur-sm",
+              activeLabel.isOnline
+                ? "bg-emerald-500/20 text-emerald-200"
+                : "bg-black/30 text-white/70"
+            )}>
+              {activeLabel.isOnline && (
+                <div className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+              )}
+              {activeLabel.text}
+            </div>
+          </div>
+        )}
+
         {/* Like/Pass overlays */}
         <motion.div
           className="absolute inset-0 flex items-center justify-center bg-green-500/20"
@@ -170,12 +214,15 @@ export function SwipeCard({ user, onSwipe, isTop = false }: SwipeCardProps) {
 
         {/* Name overlay */}
         <div className="absolute bottom-4 left-4 right-4 text-white">
-          <h2 className="text-2xl font-bold">
-            {user.name}
-            {user.age && (
-              <span className="ml-2 font-normal opacity-80">{user.age}</span>
-            )}
-          </h2>
+          <div className="flex items-center gap-2">
+            <h2 className="text-2xl font-bold">
+              {user.name}
+              {user.age && (
+                <span className="ml-2 font-normal opacity-80">{user.age}</span>
+              )}
+            </h2>
+            <VerificationBadge verification={user.verification} size="sm" />
+          </div>
           {user.location && (
             <div className="mt-0.5 flex items-center gap-1 text-sm opacity-80">
               <MapPin className="h-3.5 w-3.5" />
@@ -187,11 +234,21 @@ export function SwipeCard({ user, onSwipe, isTop = false }: SwipeCardProps) {
 
       {/* Info */}
       <div className="flex h-[35%] flex-col gap-3 p-4">
-        {user.bio && (
+        {/* Hinge-style prompt preview */}
+        {user.prompts && user.prompts.length > 0 ? (
+          <div className="rounded-xl bg-purple-50/70 px-3 py-2 dark:bg-purple-900/20">
+            <p className="text-[10px] font-semibold text-purple-600 dark:text-purple-400">
+              {user.prompts[0].question}
+            </p>
+            <p className="mt-0.5 line-clamp-2 text-sm">
+              {user.prompts[0].answer}
+            </p>
+          </div>
+        ) : user.bio ? (
           <p className="line-clamp-2 text-sm text-muted-foreground">
             {user.bio}
           </p>
-        )}
+        ) : null}
 
         <div className="flex flex-wrap gap-1.5">
           {budgetStr && (
@@ -232,16 +289,29 @@ export function SwipeCard({ user, onSwipe, isTop = false }: SwipeCardProps) {
           )}
         </div>
 
-        {user.move_in_date && (
-          <p className="text-xs text-muted-foreground">
-            Move-in:{" "}
-            {new Date(user.move_in_date).toLocaleDateString("en-US", {
-              month: "short",
-              year: "numeric",
-            })}
-          </p>
+        {/* Tap to expand */}
+        {onTapExpand && (
+          <button
+            onClick={(e) => { e.stopPropagation(); onTapExpand(); }}
+            className="mt-auto flex items-center justify-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <ChevronUp className="h-3.5 w-3.5" />
+            Tap for full profile
+          </button>
         )}
       </div>
     </motion.div>
   );
+}
+
+function getActivityLabel(dateStr: string, nowMs: number): { text: string; isOnline: boolean } {
+  const date = new Date(dateStr);
+  const diffMs = nowMs - date.getTime();
+  const diffMins = Math.floor(diffMs / 60000);
+
+  if (diffMins < 5) return { text: "Online", isOnline: true };
+  if (diffMins < 60) return { text: `${diffMins}m ago`, isOnline: false };
+  const diffHours = Math.floor(diffMins / 60);
+  if (diffHours < 24) return { text: `${diffHours}h ago`, isOnline: false };
+  return { text: "Recently active", isOnline: false };
 }

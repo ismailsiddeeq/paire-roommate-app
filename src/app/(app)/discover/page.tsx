@@ -7,8 +7,10 @@ import { Logo } from "@/components/layout/logo";
 import { SwipeCard } from "@/components/swipe/swipe-card";
 import { SwipeButtons } from "@/components/swipe/swipe-buttons";
 import { MatchModal } from "@/components/swipe/match-modal";
+import { ProfileDetailSheet } from "@/components/swipe/profile-detail-sheet";
 import { FilterDrawer } from "@/components/profile/filter-drawer";
 import { useDiscovery } from "@/hooks/use-discovery";
+import { useAuthStore } from "@/stores/auth-store";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Compass } from "lucide-react";
 import type { UserWithPhotos } from "@/types/database";
@@ -16,13 +18,15 @@ import type { UserWithPhotos } from "@/types/database";
 export default function DiscoverPage() {
   const { currentProfile, nextProfile, isLoading, swipe, isEmpty } =
     useDiscovery();
+  const { user } = useAuthStore();
   const [matchModal, setMatchModal] = useState<{
     isOpen: boolean;
     user: UserWithPhotos | null;
     matchId?: string;
   }>({ isOpen: false, user: null });
+  const [detailProfile, setDetailProfile] = useState<UserWithPhotos | null>(null);
 
-  const handleSwipe = async (direction: "like" | "pass") => {
+  const handleSwipe = async (direction: "like" | "pass" | "superlike") => {
     const result = await swipe(direction);
     if (result?.isMatch) {
       setMatchModal({
@@ -47,6 +51,7 @@ export default function DiscoverPage() {
               <Skeleton className="aspect-[3/4] w-full rounded-3xl" />
               <div className="flex justify-center gap-4">
                 <Skeleton className="h-14 w-14 rounded-full" />
+                <Skeleton className="h-11 w-11 rounded-full" />
                 <Skeleton className="h-14 w-14 rounded-full" />
               </div>
             </div>
@@ -72,6 +77,7 @@ export default function DiscoverPage() {
                   <SwipeCard
                     key={nextProfile.id}
                     user={nextProfile}
+                    currentUser={user}
                     onSwipe={() => {}}
                   />
                 )}
@@ -79,7 +85,9 @@ export default function DiscoverPage() {
                   <SwipeCard
                     key={currentProfile.id}
                     user={currentProfile}
+                    currentUser={user}
                     onSwipe={handleSwipe}
+                    onTapExpand={() => setDetailProfile(currentProfile)}
                     isTop
                   />
                 )}
@@ -89,6 +97,7 @@ export default function DiscoverPage() {
               <SwipeButtons
                 onPass={() => handleSwipe("pass")}
                 onLike={() => handleSwipe("like")}
+                onSuperLike={() => handleSwipe("superlike")}
                 disabled={!currentProfile}
               />
             </div>
@@ -102,6 +111,19 @@ export default function DiscoverPage() {
         matchedUser={matchModal.user}
         matchId={matchModal.matchId}
       />
+
+      {/* Full profile detail sheet */}
+      {currentProfile && (
+        <ProfileDetailSheet
+          user={currentProfile}
+          currentUser={user}
+          isOpen={!!detailProfile}
+          onClose={() => setDetailProfile(null)}
+          onLike={() => handleSwipe("like")}
+          onPass={() => handleSwipe("pass")}
+          onSuperLike={() => handleSwipe("superlike")}
+        />
+      )}
     </div>
   );
 }

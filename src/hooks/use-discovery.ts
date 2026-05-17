@@ -59,22 +59,24 @@ export function useDiscovery() {
   }, [user, filters, supabase]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- async data fetch, setState is called after await
     fetchProfiles();
   }, [fetchProfiles]);
 
-  const swipe = async (direction: "like" | "pass") => {
+  const swipe = async (direction: "like" | "pass" | "superlike") => {
     if (!user || currentIndex >= profiles.length) return null;
 
     const target = profiles[currentIndex];
 
+    // Store as "like" or "superlike" in DB; "pass" stays as-is
     await supabase.from("swipes").insert({
       swiper_id: user.id,
       target_id: target.id,
-      direction,
+      direction: direction === "pass" ? "pass" : direction,
     });
 
     let isMatch = false;
-    if (direction === "like") {
+    if (direction === "like" || direction === "superlike") {
       const { data: mutual } = await supabase
         .from("swipes")
         .select("id")
