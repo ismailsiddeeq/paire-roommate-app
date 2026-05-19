@@ -44,7 +44,7 @@ export function MatchModal({
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.5, opacity: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className="relative mx-4 flex w-full max-w-sm flex-col items-center rounded-3xl bg-gradient-to-br from-purple-600 via-purple-500 to-pink-500 p-8 text-white shadow-2xl"
+            className="relative mx-4 flex w-full max-w-sm flex-col items-center rounded-3xl bg-primary p-8 text-primary-foreground shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -132,7 +132,7 @@ export function MatchModal({
             >
               <Button
                 size="lg"
-                className="w-full rounded-full bg-white text-purple-600 hover:bg-white/90"
+                className="w-full rounded-full bg-primary-foreground text-primary hover:bg-primary-foreground/90"
                 onClick={() => {
                   if (matchId) {
                     router.push(`/chat/${matchId}`);

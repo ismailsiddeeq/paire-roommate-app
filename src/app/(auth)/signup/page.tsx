@@ -64,7 +64,7 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="flex min-h-[100dvh] flex-col items-center justify-center px-4">
+    <div className="flex min-h-[100dvh] flex-col items-center justify-center px-6">
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -72,7 +72,7 @@ export default function SignupPage() {
       >
         <div className="flex flex-col items-center gap-3">
           <Logo size={56} />
-          <h1 className="text-3xl font-bold tracking-tight">
+          <h1 className="text-3xl font-bold leading-[1.12] tracking-tight">
             Create account
           </h1>
           <p className="text-center text-sm text-muted-foreground">
@@ -124,7 +124,7 @@ export default function SignupPage() {
 
           <Button
             type="submit"
-            className="w-full rounded-full bg-purple-600 hover:bg-purple-700"
+            className="w-full rounded-full bg-primary hover:bg-primary/90"
             disabled={isLoading}
           >
             {isLoading ? (
@@ -177,7 +177,7 @@ export default function SignupPage() {
           Already have an account?{" "}
           <Link
             href="/login"
-            className="font-medium text-purple-600 hover:underline dark:text-purple-400"
+            className="font-medium text-primary hover:underline"
           >
             Sign in
           </Link>

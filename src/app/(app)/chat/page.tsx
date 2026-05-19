@@ -82,7 +82,7 @@ export default function ChatListPage() {
                   )}
                 </div>
                 {m.unreadCount > 0 && (
-                  <Badge className="h-5 min-w-[20px] rounded-full bg-purple-600 px-1.5 text-[10px]">
+                  <Badge className="h-5 min-w-[20px] rounded-full bg-primary px-1.5 text-[10px] text-primary-foreground">
                     {m.unreadCount}
                   </Badge>
                 )}
@@ -116,7 +116,7 @@ export default function ChatListPage() {
                     </Avatar>
                     <div className="flex-1">
                       <h3 className="font-medium">{m.otherUser.name}</h3>
-                      <p className="text-sm text-purple-600 dark:text-purple-400">
+                      <p className="text-sm text-primary">
                         New match — say hello! 👋
                       </p>
                     </div>

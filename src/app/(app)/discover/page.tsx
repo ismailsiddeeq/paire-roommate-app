@@ -58,8 +58,8 @@ export default function DiscoverPage() {
           </div>
         ) : isEmpty ? (
           <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
-            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-purple-100 dark:bg-purple-900/30">
-              <Compass className="h-10 w-10 text-purple-600 dark:text-purple-400" />
+            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary/10">
+              <Compass className="h-10 w-10 text-primary" />
             </div>
             <h2 className="text-xl font-semibold">
               You&apos;ve seen everyone!

@@ -27,7 +27,7 @@ export function MessageBubble({ message, isMine }: MessageBubbleProps) {
         className={cn(
           "max-w-[75%] rounded-2xl px-4 py-2.5",
           isMine
-            ? "rounded-br-md bg-purple-600 text-white"
+            ? "rounded-br-md bg-primary text-primary-foreground"
             : "rounded-bl-md bg-muted text-foreground"
         )}
       >
@@ -35,7 +35,7 @@ export function MessageBubble({ message, isMine }: MessageBubbleProps) {
         <div
           className={cn(
             "mt-0.5 flex items-center justify-end gap-1",
-            isMine ? "text-purple-200" : "text-muted-foreground"
+            isMine ? "text-primary-foreground/60" : "text-muted-foreground"
           )}
         >
           <span className="text-[10px]">{time}</span>

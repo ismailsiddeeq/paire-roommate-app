@@ -158,7 +158,7 @@ export function FilterDrawer() {
               Reset
             </Button>
             <Button
-              className="flex-1 rounded-full bg-purple-600 hover:bg-purple-700"
+              className="flex-1 rounded-full bg-primary hover:bg-primary/90"
               onClick={() => setOpen(false)}
             >
               Apply Filters

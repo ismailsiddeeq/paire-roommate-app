@@ -242,9 +242,9 @@ export function ProfileDetailSheet({
               <div className="space-y-5 px-5 py-5">
                 {/* Compatibility breakdown */}
                 {compatibility && compatLabel && (
-                  <div className="space-y-3 rounded-2xl bg-gradient-to-r from-purple-50 to-pink-50 p-4 dark:from-purple-900/20 dark:to-pink-900/20">
+                  <div className="space-y-3 rounded-2xl bg-primary/[0.05] p-4">
                     <div className="flex items-center gap-2">
-                      <Sparkles className="h-4 w-4 text-purple-500" />
+                      <Sparkles className="h-4 w-4 text-primary" />
                       <span className={cn("text-sm font-semibold", compatLabel.color)}>
                         {compatLabel.label} — {compatibility.overall}%
                       </span>
@@ -291,7 +291,7 @@ export function ProfileDetailSheet({
                         transition={{ delay: i * 0.1 }}
                         className="rounded-2xl border border-border/50 bg-card p-4"
                       >
-                        <p className="text-xs font-semibold text-purple-600 dark:text-purple-400">
+                        <p className="text-xs font-semibold text-primary">
                           {prompt.question}
                         </p>
                         <p className="mt-1.5 text-sm">{prompt.answer}</p>

@@ -29,14 +29,14 @@ export function BottomNav() {
               className={cn(
                 "relative flex flex-col items-center gap-0.5 px-3 py-1 transition-colors",
                 isActive
-                  ? "text-purple-600 dark:text-purple-400"
+                  ? "text-primary"
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
               {isActive && (
                 <motion.div
                   layoutId="nav-indicator"
-                  className="absolute -top-px left-1/2 h-0.5 w-8 -translate-x-1/2 rounded-full bg-purple-600 dark:bg-purple-400"
+                  className="absolute -top-px left-1/2 h-0.5 w-8 -translate-x-1/2 rounded-full bg-primary"
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}

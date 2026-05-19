@@ -177,7 +177,7 @@ export function OnboardingForm() {
         </div>
         <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
           <motion.div
-            className="h-full rounded-full bg-gradient-to-r from-purple-600 to-pink-500"
+            className="h-full rounded-full bg-primary"
             animate={{ width: `${progress}%` }}
             transition={{ duration: 0.3 }}
           />
@@ -467,7 +467,7 @@ export function OnboardingForm() {
               {prompts.map((prompt, idx) => (
                 <div key={idx} className="space-y-2 rounded-xl border border-border/50 bg-card p-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-semibold text-purple-600 dark:text-purple-400">
+                    <span className="text-xs font-semibold text-primary">
                       {prompt.question}
                     </span>
                     <button
@@ -508,7 +508,7 @@ export function OnboardingForm() {
                       <Badge
                         key={opt}
                         variant="outline"
-                        className="cursor-pointer px-3 py-1.5 text-xs transition-colors hover:bg-purple-50 hover:text-purple-700 dark:hover:bg-purple-900/20"
+                        className="cursor-pointer px-3 py-1.5 text-xs transition-colors hover:bg-primary/[0.06] hover:text-primary"
                         onClick={() =>
                           setPrompts((prev) => [
                             ...prev,
@@ -550,14 +550,14 @@ export function OnboardingForm() {
                       ✕
                     </button>
                     {idx === 0 && (
-                      <div className="absolute bottom-1 left-1 rounded-full bg-purple-600 px-2 py-0.5 text-[10px] font-medium text-white">
+                      <div className="absolute bottom-1 left-1 rounded-full bg-primary px-2 py-0.5 text-[10px] font-medium text-primary-foreground">
                         Main
                       </div>
                     )}
                   </div>
                 ))}
                 {photoPreviews.length < 6 && (
-                  <label className="flex aspect-[3/4] cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-muted-foreground/25 bg-muted/50 transition-colors hover:border-purple-400 hover:bg-purple-50 dark:hover:bg-purple-950/20">
+                  <label className="flex aspect-[3/4] cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-muted-foreground/25 bg-muted/50 transition-colors hover:border-primary/50 hover:bg-primary/[0.04]">
                     <Upload className="h-6 w-6 text-muted-foreground" />
                     <span className="text-xs text-muted-foreground">Add</span>
                     <input
@@ -589,7 +589,7 @@ export function OnboardingForm() {
         )}
         {step < STEPS.length - 1 ? (
           <Button
-            className="flex-1 rounded-full bg-purple-600 hover:bg-purple-700"
+            className="flex-1 rounded-full bg-primary hover:bg-primary/90"
             onClick={() => setStep((s) => s + 1)}
             disabled={currentStep === "basics" && !form.name.trim()}
           >
@@ -598,7 +598,7 @@ export function OnboardingForm() {
           </Button>
         ) : (
           <Button
-            className="flex-1 rounded-full bg-purple-600 hover:bg-purple-700"
+            className="flex-1 rounded-full bg-primary hover:bg-primary/90"
             onClick={handleSubmit}
             disabled={isSubmitting}
           >

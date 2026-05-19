@@ -67,7 +67,7 @@ export default function ProfilePage() {
           animate={{ y: 0, opacity: 1 }}
           className="flex flex-col items-center gap-3"
         >
-          <Avatar className="h-24 w-24 border-4 border-purple-100 dark:border-purple-900">
+          <Avatar className="h-24 w-24 border-4 border-primary/15">
             <AvatarImage
               src={
                 user.avatar_url ??
@@ -124,7 +124,7 @@ export default function ProfilePage() {
                 transition={{ delay: i * 0.1 }}
                 className="rounded-2xl border border-border/50 bg-card p-4"
               >
-                <p className="text-xs font-semibold text-purple-600 dark:text-purple-400">
+                <p className="text-xs font-semibold text-primary">
                   {prompt.question}
                 </p>
                 <p className="mt-1 text-sm">{prompt.answer}</p>

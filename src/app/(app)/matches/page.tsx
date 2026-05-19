@@ -82,7 +82,7 @@ export default function MatchesPage() {
                           className="flex flex-col items-center gap-1.5"
                         >
                           <div className="relative">
-                            <Avatar className="h-18 w-18 border-2 border-purple-400">
+                            <Avatar className="h-18 w-18 border-2 border-primary/40">
                               <AvatarImage
                                 src={
                                   m.otherUser.avatar_url ??
@@ -93,7 +93,7 @@ export default function MatchesPage() {
                                 {m.otherUser.name?.[0] ?? "?"}
                               </AvatarFallback>
                             </Avatar>
-                            <div className="absolute -bottom-0.5 -right-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-purple-600 text-white">
+                            <div className="absolute -bottom-0.5 -right-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-primary-foreground">
                               <Heart className="h-3 w-3 fill-current" />
                             </div>
                             {isOnline && (
@@ -104,7 +104,7 @@ export default function MatchesPage() {
                             {m.otherUser.name}
                           </span>
                           {compat && (
-                            <span className="text-[9px] font-semibold text-purple-600">
+                            <span className="text-[9px] font-semibold tabular-nums text-primary">
                               {compat.overall}% match
                             </span>
                           )}
@@ -179,7 +179,7 @@ export default function MatchesPage() {
                             />
                           )}
                           {m.unreadCount > 0 && (
-                            <Badge className="h-5 min-w-[20px] rounded-full bg-purple-600 px-1.5 text-[10px]">
+                            <Badge className="h-5 min-w-[20px] rounded-full bg-primary px-1.5 text-[10px] text-primary-foreground">
                               {m.unreadCount}
                             </Badge>
                           )}

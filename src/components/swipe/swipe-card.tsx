@@ -236,8 +236,8 @@ export function SwipeCard({ user, currentUser, onSwipe, onTapExpand, isTop = fal
       <div className="flex h-[35%] flex-col gap-3 p-4">
         {/* Hinge-style prompt preview */}
         {user.prompts && user.prompts.length > 0 ? (
-          <div className="rounded-xl bg-purple-50/70 px-3 py-2 dark:bg-purple-900/20">
-            <p className="text-[10px] font-semibold text-purple-600 dark:text-purple-400">
+          <div className="rounded-xl bg-primary/[0.06] px-3 py-2">
+            <p className="text-[10px] font-semibold text-primary">
               {user.prompts[0].question}
             </p>
             <p className="mt-0.5 line-clamp-2 text-sm">

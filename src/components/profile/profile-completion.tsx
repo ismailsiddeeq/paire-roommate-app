@@ -63,7 +63,7 @@ export function ProfileCompletion({ user, compact = false }: ProfileCompletionPr
         </div>
         <div className="h-1.5 overflow-hidden rounded-full bg-muted">
           <motion.div
-            className="h-full rounded-full bg-gradient-to-r from-purple-500 to-pink-500"
+            className="h-full rounded-full bg-primary"
             initial={{ width: 0 }}
             animate={{ width: `${percentage}%` }}
             transition={{ duration: 0.8, ease: "easeOut" }}
@@ -80,11 +80,11 @@ export function ProfileCompletion({ user, compact = false }: ProfileCompletionPr
           <AlertCircle className="h-4 w-4 text-amber-500" />
           <span className="text-sm font-semibold">Complete your profile</span>
         </div>
-        <span className="text-sm font-bold text-purple-600">{percentage}%</span>
+        <span className="text-sm font-bold tabular-nums text-primary">{percentage}%</span>
       </div>
       <div className="h-2 overflow-hidden rounded-full bg-muted">
         <motion.div
-          className="h-full rounded-full bg-gradient-to-r from-purple-500 to-pink-500"
+          className="h-full rounded-full bg-primary"
           initial={{ width: 0 }}
           animate={{ width: `${percentage}%` }}
           transition={{ duration: 0.8, ease: "easeOut" }}
